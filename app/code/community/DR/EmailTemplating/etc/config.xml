@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <DR_EmailTemplating>
+            <version>1.0.0</version>
+        </DR_EmailTemplating>
+    </modules>
+
+    <global>
+        <helpers>
+            <dr_emailtemplating>
+                <class>DR_EmailTemplating_Helper</class>
+            </dr_emailtemplating>
+        </helpers>
+
+        <models>
+            <core>
+                <rewrite>
+                    <translate>DR_EmailTemplating_Model_Core_Translate</translate>
+                </rewrite>
+            </core>
+        </models>
+    </global>
+</config>

@@ -1,0 +1,15 @@
+{
+  "name": "dr/email-templating",
+  "type": "magento-module",
+  "description": "Override email templates per theme",
+  "license": "OSL-3.0",
+  "authors": [
+    {
+      "name": "Daniel Rose",
+      "email": "daniel-rose@gmx.de"
+    }
+  ],
+  "require": {
+    "magento-hackathon/magento-composer-installer": "*"
+  }
+}
