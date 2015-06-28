@@ -24,16 +24,34 @@ class DR_EmailTemplating_Model_Core_Translate extends Mage_Core_Model_Translate
             $localeCode = $this->getLocale();
         }
 
+        $design = Mage::getDesign();
+        $package = Mage::getDesign()->getPackageName();
+        $theme = Mage::getDesign()->getTheme('');
+
         $params = array(
-            '_type'     => 'locale'
+            '_type'     => 'locale',
+            '_package'  => $package,
+            '_theme'    => $theme
         );
 
-        $filePath = Mage::getDesign()->getBaseDir($params) . DS . $localeCode . DS . 'template' . DS . $type . DS . $file;
+        $filePath = $design->getBaseDir($params) . DS . $localeCode . DS . 'template' . DS . $type . DS . $file;
 
-        if (!file_exists($filePath) && Mage::getDesign()->getTheme('') != Mage::getDesign()->getDefaultTheme()) {
-            $params['_theme'] = Mage::getDesign()->getDefaultTheme();
+        if (!file_exists($filePath) && $theme != $design->getDefaultTheme()) {
+            $params['_theme'] = $design->getDefaultTheme();
 
-            $filePath = Mage::getDesign()->getBaseDir($params) . DS . $localeCode . DS . 'template' . DS . $type . DS . $file;
+            $filePath = $design->getBaseDir($params) . DS . $localeCode . DS . 'template' . DS . $type . DS . $file;
+        }
+
+        if (!file_exists($filePath) && $package != Mage_Core_Model_Design_Package::DEFAULT_PACKAGE) {
+            $params['_package'] = Mage_Core_Model_Design_Package::DEFAULT_PACKAGE;
+
+            $filePath = $design->getBaseDir($params) . DS . $localeCode . DS . 'template' . DS . $type . DS . $file;
+        }
+
+        if (!file_exists($filePath) && $package != Mage_Core_Model_Design_Package::BASE_PACKAGE) {
+            $params['_package'] = Mage_Core_Model_Design_Package::BASE_PACKAGE;
+
+            $filePath = $design->getBaseDir($params) . DS . $localeCode . DS . 'template' . DS . $type . DS . $file;
         }
 
         if (!file_exists($filePath)) {
@@ -41,7 +59,7 @@ class DR_EmailTemplating_Model_Core_Translate extends Mage_Core_Model_Translate
         }
 
         $ioAdapter = new Varien_Io_File();
-        $ioAdapter->open(array('path' => Mage::getBaseDir('locale')));
+        $ioAdapter->open(array('path' => $design->getBaseDir($params)));
 
         return (string) $ioAdapter->read($filePath);
     }
